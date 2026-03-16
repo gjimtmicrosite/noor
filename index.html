@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Noor AI Knowledge Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:linear-gradient(135deg,#667eea,#764ba2);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+
+.container{
+
+background:rgba(255,255,255,0.95);
+padding:40px;
+width:420px;
+border-radius:15px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+transition:0.3s;
+
+}
+
+.container:hover{
+transform:translateY(-3px);
+}
+
+h2{
+margin-bottom:10px;
+color:#333;
+}
+
+.subtitle{
+color:#777;
+font-size:14px;
+margin-bottom:25px;
+}
+
+input{
+
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ddd;
+margin-top:10px;
+margin-bottom:15px;
+outline:none;
+transition:0.2s;
+
+}
+
+input:focus{
+border-color:#667eea;
+box-shadow:0 0 5px rgba(102,126,234,0.3);
+}
+
+button{
+
+padding:12px 20px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+margin-top:10px;
+
+}
+
+.login-btn{
+background:#667eea;
+color:white;
+width:100%;
+}
+
+.login-btn:hover{
+background:#5563d1;
+}
+
+.upload-btn{
+
+background:#28a745;
+color:white;
+width:100%;
+
+}
+
+.upload-btn:hover{
+background:#218838;
+}
+
+.logout-btn{
+
+background:#dc3545;
+color:white;
+margin-top:15px;
+width:100%;
+
+}
+
+.logout-btn:hover{
+background:#c82333;
+}
+
+#dashboard{
+display:none;
+}
+
+#status{
+margin-top:15px;
+color:#444;
+font-size:14px;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#667eea;
+margin-bottom:5px;
+}
+
+.footer{
+margin-top:25px;
+font-size:12px;
+color:#999;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="container" id="login">
+
+<div class="logo">🤖 Noor AI</div>
+
+<h2>Admin Login</h2>
+
+<p class="subtitle">Secure access to knowledge dashboard</p>
+
+<input type="text" id="username" placeholder="Enter Username">
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<button class="login-btn" onclick="login()">Login</button>
+
+<p id="loginStatus"></p>
+
+<div class="footer">Noor AI Knowledge System</div>
+
+</div>
+
+
+
+<!-- DASHBOARD -->
+
+<div class="container" id="dashboard">
+
+<div class="logo">📚 Noor AI</div>
+
+<h2>Knowledge Upload</h2>
+
+<p class="subtitle">Upload PDF to train Noor AI</p>
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<button class="upload-btn" onclick="uploadPDF()">Upload PDF</button>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+<p id="status"></p>
+
+<div class="footer">AI Knowledge Management Panel</div>
+
+</div>
+
+
+<script>
+
+// LOGIN FUNCTION
+
+function login(){
+
+var user=document.getElementById("username").value;
+var pass=document.getElementById("password").value;
+
+var correctUser="admin";
+var correctPass="noor123";
+
+if(user===correctUser && pass===correctPass){
+
+document.getElementById("login").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+}else{
+
+document.getElementById("loginStatus").innerText="❌ Invalid login details";
+
+}
+
+}
+
+
+// LOGOUT
+
+function logout(){
+
+document.getElementById("dashboard").style.display="none";
+document.getElementById("login").style.display="block";
+
+}
+
+
+// PDF UPLOAD
+
+async function uploadPDF(){
+
+const file=document.getElementById("pdfFile").files[0];
+
+if(!file){
+
+alert("Please select a PDF file");
+return;
+
+}
+
+const formData=new FormData();
+formData.append("file",file);
+
+document.getElementById("status").innerText="Uploading PDF to Noor AI...";
+
+await fetch("https://YOUR-N8N-URL/webhook/noor-upload",{
+
+method:"POST",
+body:formData
+
+});
+
+document.getElementById("status").innerText="✅ PDF uploaded successfully!";
+
+}
+
+</script>
+
+</body>
+
+</html>
