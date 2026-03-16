@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Noor AI Knowledge Dashboard</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+width:500px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+button{
+padding:10px 20px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Noor AI Knowledge Upload</h2>
+
+<p>Upload PDF to train Noor AI</p>
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<br><br>
+
+<button onclick="uploadPDF()">Upload PDF</button>
+
+<p id="status"></p>
+
+</div>
+
+<script>
+
+async function uploadPDF(){
+
+const file = document.getElementById("pdfFile").files[0];
+
+if(!file){
+
+alert("Please select a PDF file");
+
+return;
+
+}
+
+const formData = new FormData();
+formData.append("file", file);
+
+document.getElementById("status").innerText="Uploading...";
+
+await fetch("https://YOUR-N8N-URL/webhook/noor-upload",{
+
+method:"POST",
+body:formData
+
+});
+
+document.getElementById("status").innerText="PDF uploaded successfully!";
+
+}
+
+</script>
+
+</body>
+
+</html>
